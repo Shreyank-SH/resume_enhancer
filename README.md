@@ -41,6 +41,5 @@ This application is ready to be deployed on Streamlit Cloud. Make sure to:
 - Streamlit
 - Groq AI
 - Google Gemini
-- ChromaDB
 - PyMuPDF
 - python-docx 

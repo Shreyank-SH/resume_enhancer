@@ -1,28 +1,11 @@
 import streamlit as st
 import tempfile
 import os
-import random
-import chromadb
-from chromadb.config import Settings
 import fitz  # PyMuPDF
 from docx import Document
 from groq import Groq
 import re
-import glob
 import google.generativeai as genai
-
-# Create persist directory if it doesn't exist
-persist_directory = "chroma_db"
-if not os.path.exists(persist_directory):
-    os.makedirs(persist_directory)
-
-# Initialize ChromaDB with simpler configuration
-chroma_client = chromadb.Client()
-# Create a collection for storing embeddings
-collection = chroma_client.create_collection(
-    name="resume_collection",
-    get_or_create=True
-)
 
 # Initialize Groq client
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
