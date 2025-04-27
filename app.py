@@ -1,29 +1,19 @@
 import streamlit as st
 import tempfile
 import os
-import fitz  # PyMuPDF
+import fitz
 from docx import Document
 from groq import Groq
 import re
 import google.generativeai as genai
 
 # Initialize Groq client
-try:
-    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-    client = Groq(
-        api_key=GROQ_API_KEY,
-        base_url="https://api.groq.com"
-    )
-except Exception as e:
-    st.error(f"Error initializing Groq client: {str(e)}")
-    client = None
+GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+client = Groq(api_key=GROQ_API_KEY)
 
 # Initialize Gemini
-try:
-    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-    genai.configure(api_key=GEMINI_API_KEY)
-except Exception as e:
-    st.error(f"Error initializing Gemini: {str(e)}")
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+genai.configure(api_key=GEMINI_API_KEY)
 
 # Set theme to light
 st.set_page_config(
