@@ -4,15 +4,20 @@ import os
 import fitz
 from docx import Document
 from groq import Groq
-import re
 import google.generativeai as genai
+from dotenv import load_dotenv
+from markdown import markdown
+from bs4 import BeautifulSoup
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize Groq client
-GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 client = Groq(api_key=GROQ_API_KEY)
 
 # Initialize Gemini
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Set theme to light
@@ -341,9 +346,49 @@ Job Description:
     return call_groq_llama("You are an expert recruiter analyzing resumes.", prompt)
 
 def create_word_resume(enhanced_resume_text):
+    html_content = markdown(enhanced_resume_text)
+    soup = BeautifulSoup(html_content, "html.parser")
+
     doc = Document()
-    doc.add_paragraph(enhanced_resume_text)
-    save_path = 'Enhanced_Resume.docx'
+
+    def add_formatted_paragraph(element, style=None):
+        para = doc.add_paragraph(style=style)
+        for child in element.children:
+            if child.name == "strong":
+                run = para.add_run(child.get_text())
+                run.bold = True
+            elif child.name == "em":
+                run = para.add_run(child.get_text())
+                run.italic = True
+            elif child.name is None:  
+                run = para.add_run(child)
+            else:
+                run = para.add_run(child.get_text()) 
+        return para
+
+    for element in soup.find_all(["h1", "h2", "h3", "p", "ul", "ol"]):
+        if element.name == "h1":
+            add_formatted_paragraph(element, style="Heading 1")
+        elif element.name == "h2":
+            add_formatted_paragraph(element, style="Heading 2")
+        elif element.name == "h3":
+            add_formatted_paragraph(element, style="Heading 3")
+        elif element.name == "p":
+            add_formatted_paragraph(element)
+        elif element.name in ["ul", "ol"]:
+            for li in element.find_all("li"):
+                para = doc.add_paragraph(style="List Bullet")
+                for child in li.children:
+                    if child.name == "strong":
+                        run = para.add_run(child.get_text())
+                        run.bold = True
+                    elif child.name == "em":
+                        run = para.add_run(child.get_text())
+                        run.italic = True
+                    elif child.name is None:
+                        para.add_run(child)
+
+    save_path = "Enhanced_Resume.docx"
     doc.save(save_path)
     return save_path
 
@@ -367,7 +412,7 @@ Job Description:
 Reference Material:
 {reference_text}
 
-Return ONLY the enhanced full resume, no extra explanations.
+Return ONLY the enhanced full resume, no extra explanations. Send in markdown strictly.
 """
     response = model.generate_content(prompt)
     return response.text

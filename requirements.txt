@@ -4,3 +4,5 @@ python-docx
 groq
 google-generativeai
 typing-extensions
+python-dotenv
+markdown
