@@ -8,6 +8,7 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 from markdown import markdown
 from bs4 import BeautifulSoup
+import re
 
 # Load environment variables from .env file
 load_dotenv()
