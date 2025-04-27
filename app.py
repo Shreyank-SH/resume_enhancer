@@ -48,7 +48,7 @@ st.markdown("""
     /* Header Styling with adjusted position */
     .main-header {
         text-align: center;
-        margin-top: -0rem !important;
+        margin-top: -3rem !important;
         margin-bottom: 1rem;
         padding-top: 0 !important;
         color: #1D3557;
