@@ -28,7 +28,7 @@ st.markdown("""
     <style>
     /* Move header section higher */
     .main .block-container {
-        padding-top: 1rem !important;
+        padding-top: -3rem !important;
         width: 100% !important;
         max-width: none;
         padding: 1rem 2rem;
@@ -48,7 +48,7 @@ st.markdown("""
     /* Header Styling with adjusted position */
     .main-header {
         text-align: center;
-        margin-top: -3rem !important;
+        margin-top: -0rem !important;
         margin-bottom: 1rem;
         padding-top: 0 !important;
         color: #1D3557;
