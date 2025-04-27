@@ -6,4 +6,4 @@ google-generativeai
 typing-extensions
 python-dotenv
 markdown
-BeautifulSoup
+beautifulsoup4
