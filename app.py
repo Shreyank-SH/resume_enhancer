@@ -16,8 +16,13 @@ persist_directory = "chroma_db"
 if not os.path.exists(persist_directory):
     os.makedirs(persist_directory)
 
-# Initialize ChromaDB with the new configuration
-chroma_db = chromadb.PersistentClient(path=persist_directory)
+# Initialize ChromaDB with simpler configuration
+chroma_client = chromadb.Client()
+# Create a collection for storing embeddings
+collection = chroma_client.create_collection(
+    name="resume_collection",
+    get_or_create=True
+)
 
 # Initialize Groq client
 GROQ_API_KEY = st.secrets["GROQ_API_KEY"]

@@ -1,6 +1,9 @@
 streamlit==1.31.1
-chromadb==0.4.22
+chromadb==0.3.29
 PyMuPDF==1.23.26
 python-docx==1.1.0
 groq==0.4.2
-google-generativeai==0.3.2 
+google-generativeai==0.3.2
+onnxruntime==1.16.3
+sentence-transformers==2.2.2
+typing-extensions>=4.5.0 
