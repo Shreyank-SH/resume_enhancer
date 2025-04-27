@@ -8,12 +8,22 @@ import re
 import google.generativeai as genai
 
 # Initialize Groq client
-GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
-client = Groq(api_key=GROQ_API_KEY)
+try:
+    GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
+    client = Groq(
+        api_key=GROQ_API_KEY,
+        base_url="https://api.groq.com"
+    )
+except Exception as e:
+    st.error(f"Error initializing Groq client: {str(e)}")
+    client = None
 
 # Initialize Gemini
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
-genai.configure(api_key=GEMINI_API_KEY)
+try:
+    GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+    genai.configure(api_key=GEMINI_API_KEY)
+except Exception as e:
+    st.error(f"Error initializing Gemini: {str(e)}")
 
 # Set theme to light
 st.set_page_config(
